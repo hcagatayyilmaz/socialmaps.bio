@@ -29,21 +29,27 @@ export async function GET(request: Request) {
       })
     )
 
-    const accessToken = tokenResponse.data.access_token
+    const shortLivedAccessToken = tokenResponse.data.access_token
 
-    // Set accessToken in cookie http-only and secure
+    // Exchange the short-lived token for a long-lived token
+    const longLivedTokenResponse = await axios.get(
+      `https://graph.instagram.com/access_token?grant_type=ig_exchange_token&client_secret=${clientSecret}&access_token=${shortLivedAccessToken}`
+    )
+
+    const longLivedAccessToken = longLivedTokenResponse.data.access_token
+
+    // Set longLivedAccessToken in cookie http-only and secure
     const response = NextResponse.redirect(
       "https://popular-rapidly-joey.ngrok-free.app/dashboard"
     )
-    // Set accessToken in a cookie using the 'cookies()' utility
     const cookieOptions = {
       httpOnly: true,
       secure: true,
       path: "/",
-      maxAge: 90 * 24 * 60 * 60 // 90 days
+      maxAge: 60 * 24 * 60 * 60 // 60 days, as per the long-lived token's validity
     }
 
-    cookies().set("instagram-access-token", accessToken, cookieOptions)
+    cookies().set("instagram-access-token", longLivedAccessToken, cookieOptions)
     return response
   } catch (error) {
     console.error("Error in Instagram OAuth flow:", error)
