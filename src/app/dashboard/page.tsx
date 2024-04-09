@@ -5,6 +5,18 @@ import Navbar from "../../components/Navbar"
 import Onboarding from "@/app/dashboard/components/Onboarding"
 import {cookies} from "next/headers"
 import {RequestCookie} from "next/dist/compiled/@edge-runtime/cookies"
+import Dashboard from "./components/Dashboard"
+import {unstable_noStore as noStore} from "next/cache"
+
+async function getData(userId: string) {
+  noStore()
+  const data = await prisma.user.findUnique({
+    where: {
+      id: userId
+    }
+  })
+  return data
+}
 
 async function createUser({
   email,
@@ -41,34 +53,35 @@ async function createUser({
 async function fetchInstagramUserId(instagram_access_token: RequestCookie) {
   console.log(instagram_access_token?.value)
   const res = await fetch(
-    `https://graph.instagram.com/v19.0/me?fields=id&access_token=${instagram_access_token.value}`
+    `https://graph.instagram.com/v19.0/me?fields=id,username&access_token=${instagram_access_token.value}`
   )
   if (!res.ok) {
-    throw new Error("Failed to fetch Instagram user ID")
+    console.log("Problem 1")
   }
-  return res.json()
+  const {id} = await res.json()
+  return {id}
 }
 
 async function fetchInstagramPosts(
-  userId: string,
+  id: any,
   instagram_access_token: RequestCookie
 ) {
-  console.log("POMPA", userId)
   const res = await fetch(
-    `https://graph.instagram.com/${userId.id}/media?fields=id,caption,media_type,media_url,permalink,timestamp&access_token=${instagram_access_token.value}`
+    `https://graph.instagram.com/${id}/media?fields=id,caption,media_type,media_url,permalink,timestamp,thumbnail_url&access_token=${instagram_access_token.value}`
   )
   if (!res.ok) {
-    throw new Error("Failed to fetch Instagram posts")
+    console.log("Problem 2")
   }
 
   return res.json() // The posts are contained within the `data` field
 }
 
-export default async function Page() {
+export default async function age() {
   const {getUser} = await getKindeServerSession()
   const user = await getUser()
   const cookieStore = cookies()
   const instagram_access_token = cookieStore.get("instagram-access-token")
+  const data = await getData(user?.id as string)
 
   if (!user) {
     return redirect("/")
@@ -84,8 +97,21 @@ export default async function Page() {
   let posts = null
 
   if (instagram_access_token) {
-    const userId = await fetchInstagramUserId(instagram_access_token)
-    posts = await fetchInstagramPosts(userId, instagram_access_token)
+    const {id} = await fetchInstagramUserId(instagram_access_token)
+
+    posts = await fetchInstagramPosts(id, instagram_access_token)
+
+    if (!data?.onboardingCompleted) {
+      await prisma.user.update({
+        where: {
+          id: user.id
+        },
+        data: {
+          instagramId: id, // Just pass the username string here
+          onboardingCompleted: true
+        }
+      })
+    }
   }
 
   return (
@@ -94,27 +120,9 @@ export default async function Page() {
       <h1 className='text-3xl font-bold mt-10 mb-8'>Dashboard</h1>
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
         {posts && posts.data ? (
-          posts.data.map((post: any) => (
-            <div key={post.id} className='relative'>
-              <video src={post.media_url} className='w-full h-auto' controls />
-              <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
-                <svg
-                  className='w-12 h-12 text-white opacity-75'
-                  fill='currentColor'
-                  viewBox='0 0 20 20'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <path
-                    fillRule='evenodd'
-                    d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
-                    clipRule='evenodd'
-                  ></path>
-                </svg>
-              </div>
-            </div>
-          ))
+          <Dashboard posts={posts} />
         ) : (
-          <Onboarding />
+          <Onboarding username={data?.username || ""} />
         )}
       </div>
     </div>
