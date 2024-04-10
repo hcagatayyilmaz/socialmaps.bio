@@ -7,6 +7,7 @@ import {cookies} from "next/headers"
 import {RequestCookie} from "next/dist/compiled/@edge-runtime/cookies"
 import Dashboard from "./components/Dashboard"
 import {unstable_noStore as noStore} from "next/cache"
+import Map from "@/components/Map"
 
 async function getData(userId: string) {
   noStore()
@@ -115,15 +116,21 @@ export default async function age() {
   }
 
   return (
-    <div className='container mx-auto px-4'>
-      <Navbar />
-      <h1 className='text-3xl font-bold mt-10 mb-8'>Dashboard</h1>
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-        {posts && posts.data ? (
-          <Dashboard posts={posts} />
-        ) : (
-          <Onboarding username={data?.username || ""} />
-        )}
+    <div className='h-screen'>
+      <div className='h-screen flex flex-col-reverse md:flex-row '>
+        <div className='w-1/2 flex flex-col container'>
+          <Navbar />
+          <div className='w-full h-full '>
+            {posts && posts.data ? (
+              <Dashboard posts={posts} user={user} />
+            ) : (
+              <Onboarding username={data?.username || ""} />
+            )}
+          </div>
+        </div>
+        <div className='ml-2 w-1/2 h-full'>
+          <Map />
+        </div>
       </div>
     </div>
   )

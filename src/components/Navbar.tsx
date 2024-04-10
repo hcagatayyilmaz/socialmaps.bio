@@ -12,13 +12,13 @@ export default async function Navbar() {
   const {isAuthenticated, getUser} = getKindeServerSession()
   const authenticationStatus = await isAuthenticated()
   return (
-    <nav className='border-b bg-background h-[10vh] flex items-center'>
-      <div className='container flex items-center justify-between'>
+    <nav className='border-b bg-background h-[10vh] flex items-center py-4'>
+      <div className='w-full flex justify-between items-baseline'>
         <Link href='/'>
           <h1 className='font-bold text-3xl'>Logo</h1>
         </Link>
 
-        <div className='flex items-center gap-x-5'>
+        <div className='flex justify-between gap-x-5'>
           <div className=''>
             {!authenticationStatus ? (
               <div className='flex items-center gap-x-5'>
