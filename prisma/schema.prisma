@@ -21,8 +21,8 @@ model User {
   updatedAt           DateTime @updatedAt
   posts               Post[]
   stripeCustomerId    String?  @unique
-  username            String?  @unique
-  instagramToken      String?
+  url                 String?  @unique
+  instagramUsername   String?  @unique
   instagramId         String?  @unique
   image               String?
   onboardingCompleted Boolean  @default(false)

@@ -1,3 +1,42 @@
+/* Custom styles for Google Places Autocomplete dropdown */
+.pac-container {
+  border-radius: 8px;
+  /* Rounded corners for the dropdown */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  /* Subtle shadow */
+}
+
+.pac-item {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #ececec;
+  /* Light border for each item */
+}
+
+.pac-item:hover {
+  background-color: #efefef;
+  /* Light grey background on hover */
+}
+
+.pac-item-query {
+  font-weight: bold;
+  /* Make the matching query part bolder */
+}
+
+.pac-item-selected,
+.pac-item-selected:hover {
+  background-color: #e0e0e0;
+  /* Different background color when selected */
+}
+
+.pac-logo:after{
+  display: none !important;
+}
+
+.pac-icon {
+  display: none !important;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
