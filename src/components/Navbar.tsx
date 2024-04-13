@@ -29,7 +29,7 @@ export default async function Navbar() {
                         ) : (
                             <div className='flex items-center gap-x-5'>
                                 <Button>
-                                    <Link href={"profile"}>Profile</Link>
+                                    <Link href={"dashboard"}>Dashboard</Link>
                                 </Button>
                                 <LogoutLink>
                                     <Button>Logout</Button>

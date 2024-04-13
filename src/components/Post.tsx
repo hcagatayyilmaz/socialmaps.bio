@@ -6,7 +6,7 @@ import PostPopover from "@/app/dashboard/components/PostPopover"
 import axios from "axios"
 import {BsPinMap} from "react-icons/bs"
 
-export default function Post({post, user}) {
+export default function Post({post}) {
     const [location, setLocation] = useState("")
     const autocompleteRef = useRef(null)
     const videoRef = useRef(null)
@@ -71,7 +71,7 @@ export default function Post({post, user}) {
                             </div>
                         )}
                         {/* Add Button */}
-                        <PostPopover />
+                        <PostPopover post={post} />
                     </div>
                 ) : post.media_type === "IMAGE" ? (
                     <div className='w-full relative'>

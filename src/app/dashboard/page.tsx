@@ -8,6 +8,7 @@ import Dashboard from "./components/Dashboard"
 import {unstable_noStore as noStore} from "next/cache"
 import Map from "@/components/Map"
 import {fetchInstagramPosts, fetchInstagramUser, createUser} from "@/app/dashboard/actions"
+import axios from "axios"
 
 async function getData(userId: string) {
     noStore()
@@ -16,11 +17,12 @@ async function getData(userId: string) {
             id: userId
         }
     })
+
     return data
 }
 
 export default async function page() {
-    const {getUser} = getKindeServerSession()
+    const {getUser, isAuthenticated} = getKindeServerSession()
     const user = await getUser()
     const cookieStore = cookies()
     const instagram_access_token = cookieStore.get("instagram-access-token")
@@ -39,7 +41,7 @@ export default async function page() {
 
     let posts = null
 
-    if (instagram_access_token) {
+    if (instagram_access_token && data?.instagramUsername !== null && data?.instagramId !== null) {
         const {id, username} = await fetchInstagramUser(instagram_access_token)
 
         posts = await fetchInstagramPosts(id, instagram_access_token)
@@ -58,23 +60,38 @@ export default async function page() {
         }
     }
 
+    console.log(posts)
+
     return (
         <div className='h-screen'>
             <div className='h-screen flex flex-col-reverse md:flex-row '>
                 <div className='w-1/2 flex flex-col container'>
                     <Navbar />
 
+                    <div>
+                        <h2>{data?.instagramUsername}</h2>
+                    </div>
+
                     <div className='w-full h-full '>
+                        <div className='w-full mx-auto'>{data?.instagramUsername}</div>
                         {posts && posts.data ? (
                             <Dashboard posts={posts} user={user} />
                         ) : (
-                            <Onboarding username={data?.username || ""} />
+                            <Onboarding username={data?.url || ""} />
                         )}
                     </div>
                 </div>
 
                 <div className='ml-2 w-1/2 h-full'>
-                    <Map />
+                    {data?.onboardingCompleted ? (
+                        <Map />
+                    ) : (
+                        <div className='w-full h-full bg-black'>
+                            <h1 className='text-white font-mono text-large'>
+                                There will be cool placeholder{" "}
+                            </h1>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

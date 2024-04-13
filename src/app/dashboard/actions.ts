@@ -36,17 +36,15 @@ export async function createUser({
 }
 
 export async function fetchInstagramUser(instagram_access_token: RequestCookie) {
-    console.log(instagram_access_token?.value)
-
     const res = await fetch(
         `https://graph.instagram.com/v19.0/me?fields=id,username&access_token=${instagram_access_token.value}`
     )
 
     if (!res.ok) {
+        console.error("Error fetching Instagram user:", res.statusText)
     }
 
-    const {id} = await res.json()
-    const {username} = await res.json()
+    const {id, username} = await res.json()
 
     return {id, username}
 }

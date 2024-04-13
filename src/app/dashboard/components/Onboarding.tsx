@@ -43,14 +43,17 @@ async function Onboarding({username}: {username: string}) {
                     />
                     <button
                         type='submit'
-                        className='py-2 px-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white rounded-md shadow-md hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 transition-colors'
+                        className='py-2 px-4 bg-gradient-to-r from-green-500 via-blue-900  to-pink-500 text-white rounded-md shadow-md hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 transition-colors'
                     >
                         Claim
                     </button>
                 </form>
             ) : (
                 <form action={connectInstagramAccount}>
-                    <button type='submit' className=''>
+                    <button
+                        type='submit'
+                        className='py-2 px-4 bg-gradient-to-r from-green-500 via-blue-900  to-pink-500 text-white rounded-md shadow-md hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 transition-colors'
+                    >
                         Connect
                     </button>
                 </form>
