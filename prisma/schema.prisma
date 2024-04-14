@@ -21,7 +21,7 @@ model User {
   updatedAt           DateTime @updatedAt
   posts               Post[]
   stripeCustomerId    String?  @unique
-  url                 String?  @unique
+  link                String?  @unique
   instagramUsername   String?  @unique
   instagramId         String?  @unique
   image               String?
@@ -29,15 +29,15 @@ model User {
 }
 
 model Post {
-  id           String   @id @default(cuid())
-  title        String
-  content      String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  location     Json?
-  link         String?  @default("")
-  media_url    String?  @default("")
-  instagram_id String?  @unique
-  author       User     @relation(fields: [authorId], references: [id])
-  authorId     String
+  id                String   @id @default(cuid())
+  title             String
+  content           String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  location          Json?
+  link              String?  @default("")
+  media_url         String?  @default("")
+  instagram_post_id String?  @unique
+  author            User     @relation(fields: [authorId], references: [id])
+  authorId          String
 }

@@ -2,6 +2,7 @@ import {getKindeServerSession} from "@kinde-oss/kinde-auth-nextjs/server"
 import {redirect} from "next/navigation"
 import prisma from "../../lib/db"
 import Navbar from "../../components/Navbar"
+import Profile from "./components/Profile"
 import Onboarding from "@/app/dashboard/components/Onboarding"
 import {cookies} from "next/headers"
 import Dashboard from "./components/Dashboard"
@@ -63,17 +64,16 @@ export default async function page() {
     console.log(posts)
 
     return (
-        <div className='h-screen'>
+        <div className='h-screen overflow-auto'>
             <div className='h-screen flex flex-col-reverse md:flex-row '>
                 <div className='w-1/2 flex flex-col container'>
                     <Navbar />
 
                     <div>
-                        <h2>{data?.instagramUsername}</h2>
+                        <Profile />
                     </div>
 
                     <div className='w-full h-full '>
-                        <div className='w-full mx-auto'>{data?.instagramUsername}</div>
                         {posts && posts.data ? (
                             <Dashboard posts={posts} user={user} />
                         ) : (
@@ -82,7 +82,7 @@ export default async function page() {
                     </div>
                 </div>
 
-                <div className='ml-2 w-1/2 h-full'>
+                <div className='ml-2 w-1/2 h-full top-0'>
                     {data?.onboardingCompleted ? (
                         <Map />
                     ) : (

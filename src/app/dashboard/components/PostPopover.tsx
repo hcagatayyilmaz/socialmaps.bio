@@ -5,6 +5,7 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover"
 import {Autocomplete} from "@react-google-maps/api"
 import {MdOutlineAddLocationAlt} from "react-icons/md"
 import {Input} from "@/components/ui/input"
+import {Button} from "@/components/ui/button"
 import axios from "axios"
 
 function PostPopover({post}: any) {
@@ -15,14 +16,15 @@ function PostPopover({post}: any) {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
+
         const postData = {
             post,
             location: latLong
         }
+        console.log(postData)
 
-        // Using Axios to make the POST request
         try {
-            const response = await axios.post(`/api/posts?username=${username}`, postData)
+            const response = await axios.post(`/api/posts?username=sh`, postData)
             console.log("Submission successful:", response.data)
         } catch (error) {
             console.error("Error submitting location:", error)
@@ -44,36 +46,41 @@ function PostPopover({post}: any) {
                 </button>
             </PopoverTrigger>
             <PopoverContent>
-                <form onSubmit={handleSubmit}>
-                    <Autocomplete
-                        onLoad={(autocomplete) => {
-                            autocompleteRef.current = autocomplete
-                        }}
-                        onPlaceChanged={() => {
-                            const place = autocompleteRef.current.getPlace()
-                            setInputValue(place.formatted_address || place.name)
-                            // Set latitude and longitude
-                            const location = place.geometry?.location
-                            setLatLong({
-                                lat: location.lat(),
-                                lng: location.lng()
-                            })
-                            console.log("Latitude:", location.lat(), "Longitude:", location.lng()) // Log lat and long to console
-                        }}
-                        fields={["geometry"]}
-                    >
-                        <Input
-                            type='text'
-                            placeholder='Type to search...'
-                            value={inputValue}
-                            onChange={(e) => {
-                                e.preventDefault()
-                                setInputValue(e.target.value)
-                            }}
-                            className='w-full h-8'
-                        />
-                    </Autocomplete>
-                </form>
+                <Autocomplete
+                    onLoad={(autocomplete) => {
+                        autocompleteRef.current = autocomplete
+                    }}
+                    onPlaceChanged={() => {
+                        const place = autocompleteRef.current.getPlace()
+                        setInputValue(place.formatted_address || place.name)
+                        const location = place.geometry?.location
+                        setLatLong({
+                            lat: location.lat(),
+                            lng: location.lng()
+                        })
+                        console.log("Latitude:", location.lat(), "Longitude:", location.lng())
+                    }}
+                    fields={["geometry"]}
+                >
+                    <Input
+                        type='text'
+                        placeholder='Type to search...'
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        className='w-full h-8'
+                        onClick={(e) => e.stopPropagation()} // This stops the click from propagating
+                    />
+                </Autocomplete>
+                {/* <Input
+                    type='text'
+                    placeholder='Type to search...'
+                    value={inputValue}
+                    onChange={(e) => {
+                        setInputValue(e.target.value)
+                    }}
+                    className='w-full h-8'
+                /> */}
+                <Button onClick={() => setOpen(false)}>Save</Button>
             </PopoverContent>
         </Popover>
     )
