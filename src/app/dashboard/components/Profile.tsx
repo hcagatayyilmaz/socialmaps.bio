@@ -5,6 +5,9 @@ import {get} from "http"
 import {Button} from "@/components/ui/button"
 import {IoMdAddCircle} from "react-icons/io"
 import Links from "./Links"
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar"
+
+import Image from "next/image"
 
 async function getData(userId: string) {
     noStore()
@@ -24,6 +27,11 @@ export default async function Profile() {
 
     return (
         <div className='flex flex-col items-center justify-center'>
+            <Avatar className='h-20 w-20'>
+                <AvatarImage src='https://github.com/shadcn.png' />
+                <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+
             <h1>{data?.link}</h1>
             <h1>{"@" + data?.instagramUsername}</h1>
 

@@ -52,7 +52,7 @@ export default function Post({post}) {
         <div>
             <div
                 key={post.id}
-                className='relative w-full flex flex-col items-center border border-gray-200 rounded-lg p-4 '
+                className='relative w-full flex flex-col items-center border border-black rounded-lg p-4 '
             >
                 {post.media_type === "VIDEO" ? (
                     <div onClick={handleVideoClick} className='w-full relative'>

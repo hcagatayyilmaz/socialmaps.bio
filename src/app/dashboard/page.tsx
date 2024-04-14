@@ -82,7 +82,7 @@ export default async function page() {
                     </div>
                 </div>
 
-                <div className='ml-2 w-1/2 h-full top-0'>
+                <div className='ml-2 w-full md:w-1/2'>
                     {data?.onboardingCompleted ? (
                         <Map />
                     ) : (
