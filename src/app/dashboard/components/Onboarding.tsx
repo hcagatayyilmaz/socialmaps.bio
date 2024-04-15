@@ -32,22 +32,28 @@ async function Onboarding({username}: {username: string}) {
     }
 
     return (
-        <div className=' bg-gray-100 rounded-lg shadow-lg '>
+        <div className=' bg-gray-100 rounded-lg shadow-lg w-1/2 '>
             {username === "" ? (
-                <form action={claimUsername} className='flex flex-col gap-4'>
-                    <input
-                        type='text'
-                        name='username'
-                        placeholder='Enter username'
-                        className='px-4 py-2 rounded-md border-2 border-gray-300 focus:outline-none focus:border-indigo-500 transition-colors'
-                    />
-                    <button
-                        type='submit'
-                        className='py-2 px-4 bg-gradient-to-r from-green-500 via-blue-900  to-pink-500 text-white rounded-md shadow-md hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 transition-colors'
-                    >
-                        Claim
-                    </button>
-                </form>
+                <div>
+                    <p>
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellat beatae
+                        libero dignissimos?
+                    </p>
+                    <form action={claimUsername} className='flex flex-col gap-4'>
+                        <input
+                            type='text'
+                            name='username'
+                            placeholder='Enter username'
+                            className='px-4 py-2 rounded-md border-2 border-gray-300 focus:outline-none focus:border-indigo-500 transition-colors'
+                        />
+                        <button
+                            type='submit'
+                            className='py-2 px-4 bg-gradient-to-r from-green-500 via-blue-900  to-pink-500 text-white rounded-md shadow-md hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 transition-colors'
+                        >
+                            Claim
+                        </button>
+                    </form>
+                </div>
             ) : (
                 <form action={connectInstagramAccount}>
                     <button

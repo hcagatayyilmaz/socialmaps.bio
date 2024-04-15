@@ -64,35 +64,39 @@ export default async function page() {
     console.log(posts)
 
     return (
-        <div className='h-screen overflow-auto'>
-            <div className='h-screen flex flex-col-reverse md:flex-row '>
-                <div className='w-1/2 flex flex-col container'>
-                    <Navbar />
+        <div className='h-screen w-screen flex flex-col md:flex-row '>
+            <div className='w-1/2 container'>
+                <Navbar />
 
-                    <div>
-                        <Profile />
-                    </div>
-
-                    <div className='w-full h-full '>
-                        {posts && posts.data ? (
-                            <Dashboard posts={posts} user={user} />
-                        ) : (
-                            <Onboarding username={data?.url || ""} />
-                        )}
-                    </div>
-                </div>
-
-                <div className='ml-2 w-full md:w-1/2'>
+                <div className='w-full h-1/2 flex flex-col items-center justify-center'>
                     {data?.onboardingCompleted ? (
-                        <Map />
+                        <>
+                            <div className='flex flex-col items-center justify-center w-full'>
+                                <Profile />
+                            </div>
+
+                            <div className='flex flex-col items-center justify-center w-full h-full'>
+                                {posts && posts.data ? (
+                                    <Dashboard posts={posts} user={user} />
+                                ) : null}
+                            </div>
+                        </>
                     ) : (
-                        <div className='w-full h-full bg-black'>
-                            <h1 className='text-white font-mono text-large'>
-                                There will be cool placeholder{" "}
-                            </h1>
-                        </div>
+                        <Onboarding username={data?.url || ""} />
                     )}
                 </div>
+            </div>
+
+            <div className='ml-2 w-full md:w-1/2'>
+                {data?.onboardingCompleted ? (
+                    <Map />
+                ) : (
+                    <div className='w-full h-full bg-black flex items-center justify-center'>
+                        <h1 className='text-white font-mono text-large'>
+                            There will be cool placeholder!{" "}
+                        </h1>
+                    </div>
+                )}
             </div>
         </div>
     )
