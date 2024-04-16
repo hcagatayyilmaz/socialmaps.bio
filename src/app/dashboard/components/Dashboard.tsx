@@ -4,6 +4,7 @@ import Post from "@/components/Post"
 async function Dashboard({posts, user}: any) {
     return (
         <div>
+            <h1>Posts</h1>
             <div className='w-full grid grid-cols-3 gap-1 mt-4'>
                 {posts && posts.data
                     ? posts.data.map((post: any) => <Post post={post} user={user} key={post.id} />)

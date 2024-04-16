@@ -19,17 +19,18 @@ model User {
   name                String?
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
-  posts               Post[]
   stripeCustomerId    String?  @unique
-  link                String?  @unique
+  username            String?  @unique
   instagramUsername   String?  @unique
   instagramId         String?  @unique
   image               String?
   onboardingCompleted Boolean  @default(false)
+  posts               Post[]
+  links               Links[]
 }
 
 model Post {
-  id                String   @id @default(cuid())
+  id                Int      @id @default(autoincrement())
   title             String
   content           String
   createdAt         DateTime @default(now())
@@ -38,6 +39,21 @@ model Post {
   link              String?  @default("")
   media_url         String?  @default("")
   instagram_post_id String?  @unique
-  author            User     @relation(fields: [authorId], references: [id])
-  authorId          String
+  user              User     @relation(fields: [userId], references: [id])
+  userId            String
+}
+
+enum LinkType {
+  Link
+  Social
+}
+
+model Links {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  LinkType  LinkType
+  link      String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
 }

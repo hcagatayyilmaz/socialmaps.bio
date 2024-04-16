@@ -8,7 +8,7 @@ export async function POST(request: Request, {params}: {params: {username: strin
 
         // Find the user by username
         const user = await prisma.user.findUnique({
-            where: {link: username[0]},
+            where: {username: username[0]},
             include: {posts: true} // Include posts to count them
         })
 
@@ -32,7 +32,7 @@ export async function POST(request: Request, {params}: {params: {username: strin
                 location: postDetails.location, // Make sure to convert location to JSON if it's not already
                 link: postDetails.link,
                 media_url: postDetails.media_url,
-                authorId: user.id // Include authorId if it might change, otherwise it can be omitted here
+                userId: user.id // Include authorId if it might change, otherwise it can be omitted here
             },
             create: {
                 // Data to use if the post does not exist
@@ -42,7 +42,7 @@ export async function POST(request: Request, {params}: {params: {username: strin
                 link: postDetails.link,
                 media_url: postDetails.media_url,
                 instagram_post_id: postDetails.instagram_id, // Corrected field name to match Prisma schema
-                authorId: user.id
+                userId: user.id
             }
         })
 
@@ -51,6 +51,4 @@ export async function POST(request: Request, {params}: {params: {username: strin
         console.error("Failed to update user and post data:", error)
         return Response.json({slug: username[0]})
     }
-
-    return Response.json({slug: username[0]})
 }

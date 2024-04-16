@@ -60,7 +60,7 @@ export default function SocialMap(props: any) {
     }
 
     return (
-        <div className='h-screen sticky top-0 right-0 overflow-hidden z-10'>
+        <div className='h-[30vh] md:h-screen sticky top-0 right-0 overflow-hidden z-10 rounded-xl'>
             <LoadScript
                 googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY as string}
                 libraries={["places"]}

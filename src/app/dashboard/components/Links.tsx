@@ -1,4 +1,3 @@
-"use client"
 import {IoMdAddCircle} from "react-icons/io"
 import {Button} from "@/components/ui/button"
 import {Input} from "@/components/ui/input"
@@ -14,6 +13,7 @@ import {
     SheetTrigger
 } from "@/components/ui/sheet"
 import Link from "next/link"
+import prisma from "@/lib/db"
 
 const linkData = [
     {title: "Link Descriptive Content 1", url: "https://www.google.com"},
@@ -22,52 +22,125 @@ const linkData = [
     {title: "Link Descriptive Content 4", url: "https://www.google.com"}
 ]
 
+async function submitSocials(formData: FormData) {
+    "use server"
+    await prisma.user.update({
+        where: {
+            id: user?.id
+        },
+        data: {
+            username: formData.get("username") as string
+        }
+    })
+    revalidatePath("/dashboard")
+}
+
 function Links() {
     return (
         <div className='flex flex-col justify-center items-center w-full gap-4 border-t-2 mt-4 border-black'>
-            <Sheet>
-                <SheetTrigger asChild>
-                    <div className='flex flex-col justify-center items-center mt-4 cursor-pointer '>
-                        <IoMdAddCircle className='text-4xl fill-black ' />
-                        <h1>Add Link</h1>
-                    </div>
-                </SheetTrigger>
-                <SheetContent>
-                    <SheetHeader>
-                        <SheetTitle>Edit profile</SheetTitle>
-                        <SheetDescription>
-                            Make changes to your profile here. Click save when you're done.
-                        </SheetDescription>
-                    </SheetHeader>
-                    <div className='grid gap-4 py-4'>
-                        <div className='grid grid-cols-4 items-center gap-4'>
-                            <Label htmlFor='name' className='text-right'>
-                                Name
-                            </Label>
-                            <Input type='text' id='name' className='col-span-3' />
+            <div className='w-full flex-flex-col'>
+                <Sheet>
+                    <SheetTrigger asChild>
+                        <div className='flex flex-col justify-center items-center mt-4 cursor-pointer '>
+                            <IoMdAddCircle className='text-4xl fill-black ' />
+                            <h1>Add Socials</h1>
                         </div>
-                        <div className='grid grid-cols-4 items-center gap-4'>
-                            <Label htmlFor='username' className='text-right'>
-                                Username
-                            </Label>
-                            <Input type='text' id='username' className='col-span-3' />
+                    </SheetTrigger>
+                    <SheetContent>
+                        <SheetHeader>
+                            <SheetTitle>Add Your Social Accounts</SheetTitle>
+                            <SheetDescription>
+                                You can add your social media accounts to your page.
+                            </SheetDescription>
+                        </SheetHeader>
+                        <form action=''>
+                            <div className='grid gap-4 py-4'>
+                                <div className='grid grid-cols-4 items-center gap-4'>
+                                    <Label htmlFor='name' className='text-right'>
+                                        Instagram
+                                    </Label>
+                                    <Input type='text' id='name' className='col-span-3' />
+                                </div>
+                                <div className='grid grid-cols-4 items-center gap-4'>
+                                    <Label htmlFor='username' className='text-right'>
+                                        Tiktok
+                                    </Label>
+                                    <Input type='text' id='username' className='col-span-3' />
+                                </div>
+                                <div className='grid grid-cols-4 items-center gap-4'>
+                                    <Label htmlFor='username' className='text-right'>
+                                        Facebook
+                                    </Label>
+                                    <Input type='text' id='username' className='col-span-3' />
+                                </div>
+                                <div className='grid grid-cols-4 items-center gap-4'>
+                                    <Label htmlFor='username' className='text-right'>
+                                        Twitter
+                                    </Label>
+                                    <Input type='text' id='username' className='col-span-3' />
+                                </div>
+                                <div className='grid grid-cols-4 items-center gap-4'>
+                                    <Label htmlFor='username' className='text-right'>
+                                        Website
+                                    </Label>
+                                    <Input type='text' id='username' className='col-span-3' />
+                                </div>
+                            </div>
+                        </form>
+
+                        <SheetFooter>
+                            <SheetClose asChild>
+                                <Button type='submit'>Save changes</Button>
+                            </SheetClose>
+                        </SheetFooter>
+                    </SheetContent>
+                </Sheet>
+            </div>
+            <div className='w-full flex flex-col gap-4 border-t-2 border-black'>
+                <Sheet>
+                    <SheetTrigger asChild>
+                        <div className='flex flex-col justify-center items-center mt-4 cursor-pointer '>
+                            <IoMdAddCircle className='text-4xl fill-black ' />
+                            <h1>Add Link</h1>
                         </div>
-                    </div>
-                    <SheetFooter>
-                        <SheetClose asChild>
-                            <Button type='submit'>Save changes</Button>
-                        </SheetClose>
-                    </SheetFooter>
-                </SheetContent>
-            </Sheet>
-            <div className='w-full grid grid-cols-2 gap-4'>
-                {linkData.map((item) => (
-                    <Link href={item.url}>
-                        <div className='border-solid border-2 border-black rounded overflow-hidden p-2 flex items-center justify-center cursor-pointer'>
-                            <h1>{item.title}</h1>
+                    </SheetTrigger>
+                    <SheetContent>
+                        <SheetHeader>
+                            <SheetTitle>Edit profile</SheetTitle>
+                            <SheetDescription>
+                                Make changes to your profile here. Click save when you're done.
+                            </SheetDescription>
+                        </SheetHeader>
+                        <div className='grid gap-4 py-4'>
+                            <div className='grid grid-cols-4 items-center gap-4'>
+                                <Label htmlFor='name' className='text-right'>
+                                    Link Title
+                                </Label>
+                                <Input type='text' id='name' className='col-span-3' />
+                            </div>
+                            <div className='grid grid-cols-4 items-center gap-4'>
+                                <Label htmlFor='username' className='text-right'>
+                                    Link URL
+                                </Label>
+                                <Input type='text' id='username' className='col-span-3' />
+                            </div>
                         </div>
-                    </Link>
-                ))}
+                        <SheetFooter>
+                            <SheetClose asChild>
+                                <Button type='submit'>Save changes</Button>
+                            </SheetClose>
+                        </SheetFooter>
+                    </SheetContent>
+                </Sheet>
+                <div className='w-full grid grid-cols-2 gap-4'>
+                    {linkData.map((item) => (
+                        <Link href={item.url}>
+                            <div className='border-solid border-2 border-black rounded overflow-hidden p-2 flex items-center justify-center cursor-pointer'>
+                                <h1>{item.title}</h1>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
             </div>
         </div>
     )

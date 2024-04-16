@@ -32,7 +32,7 @@ export default async function Profile() {
                 <AvatarFallback>CN</AvatarFallback>
             </Avatar>
 
-            <h1>{data?.link}</h1>
+            <h1>{data?.username}</h1>
             <h1>{"@" + data?.instagramUsername}</h1>
 
             <Links />

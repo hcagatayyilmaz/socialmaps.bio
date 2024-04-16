@@ -25,21 +25,23 @@ async function Onboarding({username}: {username: string}) {
                 id: user?.id
             },
             data: {
-                url: formData.get("username") as string
+                username: formData.get("username") as string
             }
         })
         revalidatePath("/dashboard")
     }
 
     return (
-        <div className=' bg-gray-100 rounded-lg shadow-lg w-1/2 '>
+        <div className=' border border-black  rounded-lg shadow-lg w-full md:w-1/2 mx-auto my-auto p-4'>
             {username === "" ? (
                 <div>
-                    <p>
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellat beatae
-                        libero dignissimos?
+                    <p className='mb-6 text-center text-3xl'>
+                        <p>Claim your</p>
+                        <span className='bg-gradient-to-r from-green-500 via-blue-900  to-pink-500 bg-clip-text text-transparent'>
+                            SocialMaps!
+                        </span>
                     </p>
-                    <form action={claimUsername} className='flex flex-col gap-4'>
+                    <form action={claimUsername} className='flex flex-col gap-6'>
                         <input
                             type='text'
                             name='username'
@@ -48,21 +50,24 @@ async function Onboarding({username}: {username: string}) {
                         />
                         <button
                             type='submit'
-                            className='py-2 px-4 bg-gradient-to-r from-green-500 via-blue-900  to-pink-500 text-white rounded-md shadow-md hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 transition-colors'
+                            className='py-2 px-4 bg-gradient-to-r from-green-400 via-blue-800  to-pink-400 text-white rounded-md shadow-md hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 transition-colors'
                         >
                             Claim
                         </button>
                     </form>
                 </div>
             ) : (
-                <form action={connectInstagramAccount}>
-                    <button
-                        type='submit'
-                        className='py-2 px-4 bg-gradient-to-r from-green-500 via-blue-900  to-pink-500 text-white rounded-md shadow-md hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 transition-colors'
-                    >
-                        Connect
-                    </button>
-                </form>
+                <div>
+                    <h1>Securely connect your Instagram Account</h1>
+                    <form action={connectInstagramAccount}>
+                        <button
+                            type='submit'
+                            className='py-4 px-8 bg-gradient-to-r from-green-500 via-blue-900  to-pink-500 text-white rounded-md shadow-md hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 transition-colors w-full'
+                        >
+                            Connect
+                        </button>
+                    </form>
+                </div>
             )}
         </div>
     )
