@@ -85,52 +85,77 @@ function Links(props: LinksProps) {
                             </div>
                         </SheetTrigger>
                         <SheetContent>
-                            <SheetHeader>
-                                <SheetTitle>Add Your Social Accounts</SheetTitle>
-                                <SheetDescription>
-                                    You can add your social media accounts to your page.
-                                </SheetDescription>
-                            </SheetHeader>
                             <form onSubmit={handleSocials}>
+                                <SheetHeader>
+                                    <SheetTitle>Add Your Social Accounts</SheetTitle>
+                                    <SheetDescription>
+                                        You can add your social media accounts to your page.
+                                    </SheetDescription>
+                                </SheetHeader>
+
                                 <div className='grid gap-4 py-4'>
                                     <div className='grid grid-cols-4 items-center gap-4'>
                                         <Label htmlFor='name' className='text-right'>
                                             Instagram
                                         </Label>
-                                        <Input type='text' id='name' className='col-span-3' />
+                                        <Input
+                                            type='text'
+                                            id='name'
+                                            className='col-span-3'
+                                            onChange={(e) => setInstagram(e.target.value)}
+                                        />
                                     </div>
                                     <div className='grid grid-cols-4 items-center gap-4'>
                                         <Label htmlFor='username' className='text-right'>
                                             Tiktok
                                         </Label>
-                                        <Input type='text' id='username' className='col-span-3' />
+                                        <Input
+                                            type='text'
+                                            id='username'
+                                            className='col-span-3'
+                                            onChange={(e) => setTiktok(e.target.value)}
+                                        />
                                     </div>
                                     <div className='grid grid-cols-4 items-center gap-4'>
                                         <Label htmlFor='username' className='text-right'>
                                             Facebook
                                         </Label>
-                                        <Input type='text' id='username' className='col-span-3' />
+                                        <Input
+                                            type='text'
+                                            id='username'
+                                            className='col-span-3'
+                                            onChange={(e) => setFacebook(e.target.value)}
+                                        />
                                     </div>
                                     <div className='grid grid-cols-4 items-center gap-4'>
                                         <Label htmlFor='username' className='text-right'>
-                                            Twitter
+                                            X
                                         </Label>
-                                        <Input type='text' id='username' className='col-span-3' />
+                                        <Input
+                                            type='text'
+                                            id='username'
+                                            className='col-span-3'
+                                            onChange={(e) => setTwitter(e.target.value)}
+                                        />
                                     </div>
                                     <div className='grid grid-cols-4 items-center gap-4'>
                                         <Label htmlFor='username' className='text-right'>
                                             Website
                                         </Label>
-                                        <Input type='text' id='username' className='col-span-3' />
+                                        <Input
+                                            type='text'
+                                            id='username'
+                                            className='col-span-3'
+                                            onChange={(e) => setWebsite(e.target.value)}
+                                        />
                                     </div>
                                 </div>
+                                <SheetFooter>
+                                    <SheetClose asChild>
+                                        <Button type='submit'>Save changes</Button>
+                                    </SheetClose>
+                                </SheetFooter>
                             </form>
-
-                            <SheetFooter>
-                                <SheetClose asChild>
-                                    <Button type='submit'>Save changes</Button>
-                                </SheetClose>
-                            </SheetFooter>
                         </SheetContent>
                     </Sheet>
                 </form>

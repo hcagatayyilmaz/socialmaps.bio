@@ -44,16 +44,16 @@ model Post {
 }
 
 enum LinkType {
-  Link
-  Social
+  LINK
+  SOCIAL
 }
 
 enum SocialType {
-  Website
-  Twitter
-  Facebook
-  Instagram
-  Tiktok
+  WEBSITE
+  TWITTER
+  FACEBOOK
+  INSTAGRAM
+  TIKTOK
 }
 
 model Links {

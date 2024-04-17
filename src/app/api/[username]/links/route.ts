@@ -21,7 +21,7 @@ export async function POST(request: Request, {params}: {params: {username: strin
             data: {
                 ...data,
                 userId: user.id,
-                LinkType: LinkType.Link
+                LinkType: LinkType.LINK
             }
         })
         return new Response(JSON.stringify(result), {status: 200})
