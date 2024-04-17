@@ -57,7 +57,7 @@ export default async function page() {
                     id: user.id
                 },
                 data: {
-                    instagramUsername: username,
+                    username: username,
                     instagramId: id,
                     onboardingCompleted: true
                 }

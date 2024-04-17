@@ -48,12 +48,24 @@ enum LinkType {
   Social
 }
 
+enum SocialType {
+  Website
+  Twitter
+  Facebook
+  Instagram
+  Tiktok
+}
+
 model Links {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  LinkType  LinkType
-  link      String
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
+  id         Int         @id @default(autoincrement())
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  LinkType   LinkType
+  SocialType SocialType?
+  link       String
+  title      String?
+  user       User        @relation(fields: [userId], references: [id])
+  userId     String
+
+  @@unique([userId, SocialType])
 }

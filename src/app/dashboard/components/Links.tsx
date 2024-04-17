@@ -1,3 +1,5 @@
+"use client"
+import React, {useState} from "react"
 import {IoMdAddCircle} from "react-icons/io"
 import {Button} from "@/components/ui/button"
 import {Input} from "@/components/ui/input"
@@ -13,7 +15,7 @@ import {
     SheetTrigger
 } from "@/components/ui/sheet"
 import Link from "next/link"
-import prisma from "@/lib/db"
+import axios from "axios"
 
 const linkData = [
     {title: "Link Descriptive Content 1", url: "https://www.google.com"},
@@ -21,80 +23,117 @@ const linkData = [
     {title: "Link Descriptive Content 3", url: "https://www.google.com"},
     {title: "Link Descriptive Content 4", url: "https://www.google.com"}
 ]
-
-async function submitSocials(formData: FormData) {
-    "use server"
-    await prisma.user.update({
-        where: {
-            id: user?.id
-        },
-        data: {
-            username: formData.get("username") as string
-        }
-    })
-    revalidatePath("/dashboard")
+interface LinksProps {
+    username: string | null | undefined
 }
 
-function Links() {
+function Links(props: LinksProps) {
+    const {username} = props
+    const [instagram, setInstagram] = useState("")
+    const [tiktok, setTiktok] = useState("")
+    const [facebook, setFacebook] = useState("")
+    const [twitter, setTwitter] = useState("")
+    const [website, setWebsite] = useState("")
+
+    const [link, setLink] = useState("")
+    const [title, setTitle] = useState("")
+
+    const handleLinks = async (event: React.FormEvent) => {
+        event.preventDefault()
+        const data = {
+            title: title,
+            link: link
+        }
+        console.log("Submitting Data:", data)
+        const response = await axios.post(`/api/${username}/links`, data)
+
+        if (response.status === 200) {
+            console.log("Links submitted successfully!")
+        } else {
+            console.error("Failed to submit links")
+        }
+    }
+
+    const handleSocials = async (event: React.FormEvent) => {
+        event.preventDefault()
+        const data = {
+            instagram: instagram,
+            tiktok: tiktok,
+            facebook: facebook,
+            twitter: twitter,
+            website: website
+        }
+        console.log("Submitting Data:", data)
+        const response = await axios.post(`/api/${username}/socials`, data)
+
+        if (response.status) {
+            console.log("Links submitted successfully!")
+        } else {
+            console.error("Failed to submit links")
+        }
+    }
+
     return (
         <div className='flex flex-col justify-center items-center w-full gap-4 border-t-2 mt-4 border-black'>
             <div className='w-full flex-flex-col'>
-                <Sheet>
-                    <SheetTrigger asChild>
-                        <div className='flex flex-col justify-center items-center mt-4 cursor-pointer '>
-                            <IoMdAddCircle className='text-4xl fill-black ' />
-                            <h1>Add Socials</h1>
-                        </div>
-                    </SheetTrigger>
-                    <SheetContent>
-                        <SheetHeader>
-                            <SheetTitle>Add Your Social Accounts</SheetTitle>
-                            <SheetDescription>
-                                You can add your social media accounts to your page.
-                            </SheetDescription>
-                        </SheetHeader>
-                        <form action=''>
-                            <div className='grid gap-4 py-4'>
-                                <div className='grid grid-cols-4 items-center gap-4'>
-                                    <Label htmlFor='name' className='text-right'>
-                                        Instagram
-                                    </Label>
-                                    <Input type='text' id='name' className='col-span-3' />
-                                </div>
-                                <div className='grid grid-cols-4 items-center gap-4'>
-                                    <Label htmlFor='username' className='text-right'>
-                                        Tiktok
-                                    </Label>
-                                    <Input type='text' id='username' className='col-span-3' />
-                                </div>
-                                <div className='grid grid-cols-4 items-center gap-4'>
-                                    <Label htmlFor='username' className='text-right'>
-                                        Facebook
-                                    </Label>
-                                    <Input type='text' id='username' className='col-span-3' />
-                                </div>
-                                <div className='grid grid-cols-4 items-center gap-4'>
-                                    <Label htmlFor='username' className='text-right'>
-                                        Twitter
-                                    </Label>
-                                    <Input type='text' id='username' className='col-span-3' />
-                                </div>
-                                <div className='grid grid-cols-4 items-center gap-4'>
-                                    <Label htmlFor='username' className='text-right'>
-                                        Website
-                                    </Label>
-                                    <Input type='text' id='username' className='col-span-3' />
-                                </div>
+                <form onSubmit={handleSocials}>
+                    <Sheet>
+                        <SheetTrigger asChild>
+                            <div className='flex flex-col justify-center items-center mt-4 cursor-pointer '>
+                                <IoMdAddCircle className='text-4xl fill-black ' />
+                                <h1>Add Socials</h1>
                             </div>
-                        </form>
+                        </SheetTrigger>
+                        <SheetContent>
+                            <SheetHeader>
+                                <SheetTitle>Add Your Social Accounts</SheetTitle>
+                                <SheetDescription>
+                                    You can add your social media accounts to your page.
+                                </SheetDescription>
+                            </SheetHeader>
+                            <form onSubmit={handleSocials}>
+                                <div className='grid gap-4 py-4'>
+                                    <div className='grid grid-cols-4 items-center gap-4'>
+                                        <Label htmlFor='name' className='text-right'>
+                                            Instagram
+                                        </Label>
+                                        <Input type='text' id='name' className='col-span-3' />
+                                    </div>
+                                    <div className='grid grid-cols-4 items-center gap-4'>
+                                        <Label htmlFor='username' className='text-right'>
+                                            Tiktok
+                                        </Label>
+                                        <Input type='text' id='username' className='col-span-3' />
+                                    </div>
+                                    <div className='grid grid-cols-4 items-center gap-4'>
+                                        <Label htmlFor='username' className='text-right'>
+                                            Facebook
+                                        </Label>
+                                        <Input type='text' id='username' className='col-span-3' />
+                                    </div>
+                                    <div className='grid grid-cols-4 items-center gap-4'>
+                                        <Label htmlFor='username' className='text-right'>
+                                            Twitter
+                                        </Label>
+                                        <Input type='text' id='username' className='col-span-3' />
+                                    </div>
+                                    <div className='grid grid-cols-4 items-center gap-4'>
+                                        <Label htmlFor='username' className='text-right'>
+                                            Website
+                                        </Label>
+                                        <Input type='text' id='username' className='col-span-3' />
+                                    </div>
+                                </div>
+                            </form>
 
-                        <SheetFooter>
-                            <SheetClose asChild>
-                                <Button type='submit'>Save changes</Button>
-                            </SheetClose>
-                        </SheetFooter>
-                    </SheetContent>
-                </Sheet>
+                            <SheetFooter>
+                                <SheetClose asChild>
+                                    <Button type='submit'>Save changes</Button>
+                                </SheetClose>
+                            </SheetFooter>
+                        </SheetContent>
+                    </Sheet>
+                </form>
             </div>
             <div className='w-full flex flex-col gap-4 border-t-2 border-black'>
                 <Sheet>
@@ -105,33 +144,48 @@ function Links() {
                         </div>
                     </SheetTrigger>
                     <SheetContent>
-                        <SheetHeader>
-                            <SheetTitle>Edit profile</SheetTitle>
-                            <SheetDescription>
-                                Make changes to your profile here. Click save when you're done.
-                            </SheetDescription>
-                        </SheetHeader>
-                        <div className='grid gap-4 py-4'>
-                            <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor='name' className='text-right'>
-                                    Link Title
-                                </Label>
-                                <Input type='text' id='name' className='col-span-3' />
+                        <form onSubmit={handleLinks}>
+                            <SheetHeader>
+                                <SheetTitle>Edit profile</SheetTitle>
+                                <SheetDescription>
+                                    Make changes to your profile here. Click save when you're done.
+                                </SheetDescription>
+                            </SheetHeader>
+                            <div className='grid gap-4 py-4'>
+                                <div className='grid grid-cols-4 items-center gap-4'>
+                                    <Label htmlFor='name' className='text-right'>
+                                        Title
+                                    </Label>
+                                    <Input
+                                        type='text'
+                                        id='title'
+                                        className='col-span-3'
+                                        value={title}
+                                        onChange={(e) => setTitle(e.target.value)}
+                                    />
+                                </div>
+                                <div className='grid grid-cols-4 items-center gap-4'>
+                                    <Label htmlFor='link' className='text-right'>
+                                        Link URL
+                                    </Label>
+                                    <Input
+                                        type='text'
+                                        id='link'
+                                        className='col-span-3'
+                                        value={link}
+                                        onChange={(e) => setLink(e.target.value)}
+                                    />
+                                </div>
                             </div>
-                            <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor='username' className='text-right'>
-                                    Link URL
-                                </Label>
-                                <Input type='text' id='username' className='col-span-3' />
-                            </div>
-                        </div>
-                        <SheetFooter>
-                            <SheetClose asChild>
-                                <Button type='submit'>Save changes</Button>
-                            </SheetClose>
-                        </SheetFooter>
+                            <SheetFooter>
+                                <SheetClose asChild>
+                                    <Button type='submit'>Save changes</Button>
+                                </SheetClose>
+                            </SheetFooter>
+                        </form>
                     </SheetContent>
                 </Sheet>
+
                 <div className='w-full grid grid-cols-2 gap-4'>
                     {linkData.map((item) => (
                         <Link href={item.url}>

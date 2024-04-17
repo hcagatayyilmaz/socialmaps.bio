@@ -24,6 +24,7 @@ export default async function Profile() {
     const {getUser} = getKindeServerSession()
     const user = await getUser()
     const data = await getData(user?.id as string)
+    console.log(data)
 
     return (
         <div className='flex flex-col items-center justify-center'>
@@ -32,10 +33,9 @@ export default async function Profile() {
                 <AvatarFallback>CN</AvatarFallback>
             </Avatar>
 
-            <h1>{data?.username}</h1>
             <h1>{"@" + data?.instagramUsername}</h1>
 
-            <Links />
+            <Links username={data?.username} />
         </div>
     )
 }
