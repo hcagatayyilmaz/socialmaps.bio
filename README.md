@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# SocialMaps.bio
 
-## Getting Started
+**SocialMaps.bio** is a link-in-bio tool that brings together social media links, maps, and contact information into a single, interactive landing page. This app offers a clean and customizable interface with an integrated map feature to showcase locations, leveraging modern technologies for an optimized and dynamic user experience.
 
-First, run the development server:
+## Table of Contents
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- [Project Overview](#project-overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Installation and Setup](#installation-and-setup)
+- [Folder Structure](#folder-structure)
+- [Scripts](#scripts)
+- [Contributing](#contributing)
+- [License](#license)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project Overview
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+SocialMaps.bio combines functionality and aesthetics, offering users a unique way to display links and locations in a single, visually appealing profile. This platform is ideal for social media influencers, brands, or businesses that want a central hub for links and location-based information.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Features
 
-## Learn More
+- **Link and Location Sharing**: Easily share links along with embedded maps for location-based information.
+- **Customizable Interface**: Multiple UI components using Radix UI for a cohesive design experience.
+- **Authentication**: User authentication with Kinde OSS to ensure secure access.
+- **Interactive Maps**: Google Maps API integration for location visualization.
+- **Responsive and Performant**: Built with Next.js and Tailwind CSS for optimized and responsive UI.
 
-To learn more about Next.js, take a look at the following resources:
+## Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- **Frontend**: [Next.js](https://nextjs.org/), [React](https://reactjs.org/), [Tailwind CSS](https://tailwindcss.com/)
+- **Backend**: [Prisma](https://www.prisma.io/) ORM for database management
+- **Authentication**: [Kinde Auth](https://kinde.com/) for secure login and user management
+- **UI Components**: [shadcn](https://ui.shadcn.com/) for accessible and customizable UI components
+- **Maps**: [Google Maps API](https://developers.google.com/maps/documentation) using `@react-google-maps/api`
+- **Icons**: [Lucide React](https://lucide.dev/) and [React Icons](https://react-icons.github.io/react-icons/) for iconography
